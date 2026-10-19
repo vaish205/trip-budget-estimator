@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Budget Estimator</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 550px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #234e70;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+        }
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+            margin-top: 5px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Trip Budget Estimator</h1>
+    <p>Calculate your estimated travel expenses.</p>
+
+    <form method="POST">
+        <label>Number of travellers</label>
+        <input type="number" name="people" min="1"
+               value="3" required>
+
+        <label>Trip duration (days)</label>
+        <input type="number" name="days" min="1"
+               value="2" required>
+
+        <label>Number of nights</label>
+        <input type="number" name="nights" min="0"
+               value="2" required>
+
+        <label>Total transport cost (₹)</label>
+        <input type="number" name="transport" min="0"
+               step="0.01" value="3000" required>
+
+        <label>Hotel cost per night (₹)</label>
+        <input type="number" name="hotel" min="0"
+               step="0.01" value="2000" required>
+
+        <label>Food cost per person per day (₹)</label>
+        <input type="number" name="food" min="0"
+               step="0.01" value="500" required>
+
+        <label>Total activities and other costs (₹)</label>
+        <input type="number" name="activities" min="0"
+               step="0.01" value="1500" required>
+
+        <button type="submit">Calculate Budget</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+    <div class="result">
+        <h2>Budget Summary</h2>
+        <p>Transport: ₹{{ "%.2f"|format(result.transport) }}</p>
+        <p>Accommodation: ₹{{ "%.2f"|format(result.hotel) }}</p>
+        <p>Food: ₹{{ "%.2f"|format(result.food) }}</p>
+        <p>Activities: ₹{{ "%.2f"|format(result.activities) }}</p>
+        <hr>
+        <h3>Total Budget:
+            ₹{{ "%.2f"|format(result.total) }}</h3>
+        <h3>Cost Per Person:
+            ₹{{ "%.2f"|format(result.per_person) }}</h3>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
